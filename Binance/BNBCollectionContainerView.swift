@@ -81,16 +81,36 @@ class BNBCollectionContainerView: UICollectionViewCell, UICollectionViewDelegate
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.objects.count
+        if (self.motherVC?.isSearching)! {
+            
+            return (self.motherVC?.filteredArray.count)!
+            
+        }else{
+            return self.objects.count
+
+            
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as! BaseCollectionViewCell
         
-        let object = self.objects[indexPath.item]
+        if (self.motherVC?.isSearching)! {
+            
+            let obj = self.motherVC?.filteredArray[indexPath.item]
+            self.processAndDisplay(object: obj as AnyObject, cell: cell)
 
+            
+        }else{
+            
+            let object = self.objects[indexPath.item]
+            
+            
+            self.processAndDisplay(object: object as AnyObject, cell: cell)
+            
+        }
         
-        self.processAndDisplay(object: object as AnyObject, cell: cell)
+       
      
         
         return cell

@@ -91,7 +91,40 @@ class TopNavContainerView: UIView, UICollectionViewDelegate, UICollectionViewDat
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
         self.motherVC.collectionView.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.centeredHorizontally, animated: true)
+        
+        self.motherVC.keepTrackOfSelectedCells = indexPath.item
+        self.motherVC.filteredArray.removeAll(keepingCapacity: true)
+        self.motherVC.searchTextField.text = ""
+        self.motherVC.isSearching = false
+        
+        self.motherVC.searchTextField.resignFirstResponder()
+        self.motherVC.handleCancelSearch()
+        
+        switch indexPath.item {
+            
+        case 0:
+            
+            self.motherVC.bnbVC?.collectionView.reloadData()
+
+        case 1:
+            
+            self.motherVC.btcVC?.collectionView.reloadData()
+
+        case 2:
+            
+            self.motherVC.ethVC?.collectionView.reloadData()
+
+        case 3:
+            
+            self.motherVC.usdtVC?.collectionView.reloadData()
+
+            
+        default:
+            print("")
+        }
+        
         self.hideOrShowIndicator(indexPath: indexPath)
         
     }

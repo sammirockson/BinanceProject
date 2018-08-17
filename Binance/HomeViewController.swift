@@ -11,7 +11,7 @@ import Alamofire
 import SwiftyJSON
 import SVProgressHUD
 
-class HomeViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class HomeViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITextFieldDelegate {
     
     let customNavBarContainerView: UIView = {
         let v = UIView()
@@ -77,14 +77,25 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         return button
     }()
     
-    let searchTextField: UITextField = {
+    lazy var searchTextField: UITextField = {
         let txtField = UITextField()
         txtField.translatesAutoresizingMaskIntoConstraints = false
-        txtField.placeholder = "  Search by currency"
-        txtField.layer.cornerRadius = 16
-        txtField.clipsToBounds = true
-        txtField.backgroundColor = .red
+        txtField.placeholder = "Search by currency"
+        txtField.autocorrectionType = .no
+        txtField.textColor = .white
+        txtField.font = UIFont(name: FontNames.OpenSansRegular, size: 14)
+        txtField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        txtField.delegate = self
         return txtField
+    }()
+    
+    let searchContainerView: UIView = {
+        let v = UIView()
+        v.translatesAutoresizingMaskIntoConstraints = false
+        v.backgroundColor = UIColor(white: 0.5, alpha: 0.5)
+        v.layer.cornerRadius = 16
+        v.clipsToBounds = true
+        return v
     }()
     
     
@@ -141,7 +152,176 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
 
     }
     
+    
+    var keepTrackOfSelectedCells = 0
 
+    var filteredArray = [Any]()
+    var btcFilteredArray = [Any]()
+    var isSearching = false
+    
+    @objc func textFieldDidChange(){
+        
+        let searchText = self.searchTextField.text!
+        print(keepTrackOfSelectedCells)
+        
+        switch self.keepTrackOfSelectedCells {
+            
+        case 0:
+            
+            self.filterBNB(searchText: searchText)
+            
+        case 1:
+            
+            self.filterBTC(searchText: searchText)
+            
+        case 2:
+            
+            self.filterETH(searchText: searchText)
+            
+        case 3:
+            
+            self.filterUSDT(searchText: searchText)
+
+        default:
+            print("")
+        }
+        
+       
+        
+        
+        
+    }
+    
+    
+    func filterBNB(searchText: String){
+        
+        self.filteredArray = self.bnbObjects.filter({ (object) -> Bool in
+            
+            let objc = object as AnyObject
+            
+            if let foundString = objc.object(forKey: "baseAssetName") as? String {
+                
+                if foundString.lowercased().contains(searchText.lowercased()){
+                    
+                    print(filteredArray)
+                    self.bnbVC?.collectionView.reloadData()
+                    
+                    return true
+                    
+                    
+                }else{
+                    
+                    return false
+                }
+                
+            }else{
+                
+                return false
+            }
+            
+            
+            
+        })
+        
+    }
+    
+    
+    
+    func filterBTC(searchText: String){
+        
+        self.btcFilteredArray = self.btcObjects.filter({ (object) -> Bool in
+            
+            let objc = object as AnyObject
+            
+            if let foundString = objc.object(forKey: "baseAssetName") as? String {
+                
+                if foundString.lowercased().contains(searchText.lowercased()){
+                    
+                    self.btcVC?.collectionView.reloadData()
+                    
+                    return true
+                    
+                    
+                }else{
+                    
+                    return false
+                }
+                
+            }else{
+                
+                return false
+            }
+            
+            
+            
+        })
+        
+    }
+    
+    
+    func filterETH(searchText: String){
+        
+        self.filteredArray = self.ethObjects.filter({ (object) -> Bool in
+            
+            let objc = object as AnyObject
+            
+            if let foundString = objc.object(forKey: "baseAssetName") as? String {
+                
+                if foundString.lowercased().contains(searchText.lowercased()){
+                    
+                    self.ethVC?.collectionView.reloadData()
+                    
+                    return true
+                    
+                    
+                }else{
+                    
+                    return false
+                }
+                
+            }else{
+                
+                return false
+            }
+            
+            
+            
+        })
+        
+    }
+    
+    
+    func filterUSDT(searchText: String){
+        
+        self.filteredArray = self.usdObjects.filter({ (object) -> Bool in
+            
+            let objc = object as AnyObject
+            
+            if let foundString = objc.object(forKey: "baseAssetName") as? String {
+                
+                if foundString.lowercased().contains(searchText.lowercased()){
+                    
+                    self.usdtVC?.collectionView.reloadData()
+                    
+                    return true
+                    
+                    
+                }else{
+                    
+                    return false
+                }
+                
+            }else{
+                
+                return false
+            }
+            
+            
+            
+        })
+        
+    }
+    
     
     func fetchData(){
         
@@ -246,7 +426,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
                     if self.bnbObjects.count > 0 {
                         
                         if let cellContainerVC = self.bnbVC {
-                            
+                            print(self.bnbObjects)
                             cellContainerVC.objects = self.bnbObjects
                             cellContainerVC.collectionView.reloadData()
                             
@@ -315,7 +495,13 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         
     }
     
+    
+    
+    
     @objc func handleCancelSearch(){
+        
+        self.isSearching = false
+
         
         UIView.animate(withDuration: 0.75, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
             
@@ -329,6 +515,12 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             self.searchButton.isHidden = false
             self.navTitle.isHidden = false
             self.searchTextField.resignFirstResponder()
+            
+            self.searchTextField.text = ""
+            self.btcVC?.collectionView.reloadData()
+            self.ethVC?.collectionView.reloadData()
+            self.usdtVC?.collectionView.reloadData()
+            self.bnbVC?.collectionView.reloadData()
 
 
             
@@ -339,6 +531,8 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     @objc func handleAnimateSearchBar(){
         
+        self.isSearching = true
+        
         UIView.animate(withDuration: 0.75, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
             
             self.searchTextFieldWidthConstraint?.constant = self.view.frame.width - 90
@@ -348,6 +542,9 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             self.navTitle.isHidden = true
             
         }) { (completed) in
+            
+            self.searchTextField.becomeFirstResponder()
+            
             
         }
         
@@ -363,7 +560,9 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         customNavBarContainerView.addSubview(topNavContainerView)
         customNavBarContainerView.addSubview(searchButton)
         customNavBarContainerView.addSubview(cancelSearchButton)
-        customNavBarContainerView.addSubview(searchTextField)
+        customNavBarContainerView.addSubview(searchContainerView)
+        searchContainerView.addSubview(searchTextField)
+        
         
         
         
@@ -373,14 +572,23 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         cancelSearchButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
         view.addSubview(collectionView)
+        
+        
+        
+        searchTextField.rightAnchor.constraint(equalTo: searchContainerView.rightAnchor).isActive = true
+        searchTextField.leftAnchor.constraint(equalTo: searchContainerView.leftAnchor, constant: 8).isActive = true
+        searchTextField.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        searchTextField.centerYAnchor.constraint(equalTo: searchContainerView.centerYAnchor).isActive = true
+
 
         //expand to when animated view.frame.width - 70
         
-        searchTextField.rightAnchor.constraint(equalTo: cancelSearchButton.leftAnchor, constant: -8).isActive = true
-        searchTextFieldWidthConstraint = searchTextField.widthAnchor.constraint(equalToConstant: 0)
+        searchContainerView.rightAnchor.constraint(equalTo: cancelSearchButton.leftAnchor, constant: -8).isActive = true
+        searchTextFieldWidthConstraint = searchContainerView.widthAnchor.constraint(equalToConstant: 0)
         searchTextFieldWidthConstraint?.isActive = true
-        searchTextField.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        searchTextField.centerYAnchor.constraint(equalTo: navTitle.centerYAnchor).isActive = true
+        searchContainerView.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        searchContainerView.centerYAnchor.constraint(equalTo: navTitle.centerYAnchor).isActive = true
+        
         
         searchButton.centerYAnchor.constraint(equalTo: navTitle.centerYAnchor).isActive = true
         searchButton.rightAnchor.constraint(equalTo: customNavBarContainerView.rightAnchor, constant: -15).isActive = true
