@@ -146,6 +146,62 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		DDC93225212707A00091EE96 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				DDD062F421256A2700FF18C8 /* FontNames.swift */,
+				DDD062F621256C1100FF18C8 /* CustomAlertsView.swift */,
+				DDD062F821256C1900FF18C8 /* RGB.swift */,
+				DDD062FC21256DFC00FF18C8 /* Extensions.swift */,
+				DDD063022125723900FF18C8 /* Network.swift */,
+				DD51EEE92126916A00469F11 /* StringUtil.swift */,
+				DD51EEEB212693A700469F11 /* PullToRefresh.swift */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
+		DDC93226212707BD0091EE96 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				DDD062EC2125694500FF18C8 /* HomeViewController.swift */,
+				DDD062FA21256CBE00FF18C8 /* TopNavContainerView.swift */,
+				DDD063002125716600FF18C8 /* TopNavCollectionViewCell.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		DDC93227212707CF0091EE96 /* BNB */ = {
+			isa = PBXGroup;
+			children = (
+				DD51EEDD2125B69B00469F11 /* BNBCollectionContainerView.swift */,
+			);
+			path = BNB;
+			sourceTree = "<group>";
+		};
+		DDC93228212707DD0091EE96 /* BTC */ = {
+			isa = PBXGroup;
+			children = (
+				DD51EEE12125B80A00469F11 /* BTCCollectionContainerView.swift */,
+			);
+			path = BTC;
+			sourceTree = "<group>";
+		};
+		DDC93229212707E40091EE96 /* ETH */ = {
+			isa = PBXGroup;
+			children = (
+				DD51EEE32125B92500469F11 /* ETHCollectionContainerView.swift */,
+			);
+			path = ETH;
+			sourceTree = "<group>";
+		};
+		DDC9322A212707EC0091EE96 /* USDT */ = {
+			isa = PBXGroup;
+			children = (
+				DD51EEE52125B9B500469F11 /* USDTCollectionContainerView.swift */,
+			);
+			path = USDT;
+			sourceTree = "<group>";
+		};
 		DDD063042125756500FF18C8 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
@@ -182,21 +238,13 @@
 			isa = PBXGroup;
 			children = (
 				DDE5CD4621256855006E3F84 /* AppDelegate.swift */,
-				DDD062EC2125694500FF18C8 /* HomeViewController.swift */,
-				DDD062FA21256CBE00FF18C8 /* TopNavContainerView.swift */,
-				DDD063002125716600FF18C8 /* TopNavCollectionViewCell.swift */,
-				DD51EEDD2125B69B00469F11 /* BNBCollectionContainerView.swift */,
-				DD51EEE12125B80A00469F11 /* BTCCollectionContainerView.swift */,
-				DD51EEE32125B92500469F11 /* ETHCollectionContainerView.swift */,
-				DD51EEE52125B9B500469F11 /* USDTCollectionContainerView.swift */,
+				DDC93226212707BD0091EE96 /* Home */,
+				DDC93227212707CF0091EE96 /* BNB */,
+				DDC93228212707DD0091EE96 /* BTC */,
+				DDC93229212707E40091EE96 /* ETH */,
+				DDC9322A212707EC0091EE96 /* USDT */,
 				DD51EEE721267B4400469F11 /* BaseCollectionViewCell.swift */,
-				DDD062F421256A2700FF18C8 /* FontNames.swift */,
-				DDD062F621256C1100FF18C8 /* CustomAlertsView.swift */,
-				DDD062F821256C1900FF18C8 /* RGB.swift */,
-				DDD062FC21256DFC00FF18C8 /* Extensions.swift */,
-				DDD063022125723900FF18C8 /* Network.swift */,
-				DD51EEE92126916A00469F11 /* StringUtil.swift */,
-				DD51EEEB212693A700469F11 /* PullToRefresh.swift */,
+				DDC93225212707A00091EE96 /* Helper */,
 				DDE5CD5021256857006E3F84 /* Assets.xcassets */,
 				DDD063042125756500FF18C8 /* Fonts */,
 				DDE5CD5221256857006E3F84 /* LaunchScreen.storyboard */,

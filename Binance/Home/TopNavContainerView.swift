@@ -94,6 +94,8 @@ class TopNavContainerView: UIView, UICollectionViewDelegate, UICollectionViewDat
         
         self.motherVC.collectionView.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.centeredHorizontally, animated: true)
         
+        //Clear and prepare the tapped section for search
+        
         self.motherVC.keepTrackOfSelectedCells = indexPath.item
         self.motherVC.filteredArray.removeAll(keepingCapacity: true)
         self.motherVC.searchTextField.text = ""

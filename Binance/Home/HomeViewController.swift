@@ -195,6 +195,9 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     func filterBNB(searchText: String){
         
+        //Filters through the array
+
+        
         self.filteredArray = self.bnbObjects.filter({ (object) -> Bool in
             
             let objc = object as AnyObject
@@ -203,7 +206,6 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
                 
                 if foundString.lowercased().contains(searchText.lowercased()){
                     
-                    print(filteredArray)
                     self.bnbVC?.collectionView.reloadData()
                     
                     return true
@@ -228,6 +230,9 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     
     func filterBTC(searchText: String){
+        
+        //Filters through the array
+
         
         self.btcFilteredArray = self.btcObjects.filter({ (object) -> Bool in
             
@@ -260,6 +265,8 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     
     func filterETH(searchText: String){
+        
+        //Filters through the array
         
         self.filteredArray = self.ethObjects.filter({ (object) -> Bool in
             
@@ -423,6 +430,8 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
                 
                 DispatchQueue.main.async {
                     
+                    //BNB collectionview
+                    
                     if self.bnbObjects.count > 0 {
                         
                         if let cellContainerVC = self.bnbVC {
@@ -436,6 +445,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
                     }
                     
 
+                    //BTC collectionview
                     
                     if self.btcObjects.count > 0 {
                         
@@ -453,6 +463,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
                     
                     
                     
+                    //ETH collectionview
                     
                     if self.ethObjects.count > 0 {
                         
@@ -468,7 +479,8 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
                     
                     
                     
-                    
+                    //USDT collectview
+
                     if self.usdObjects.count > 0 {
                         
                         if let cellContainerVC = self.usdtVC {
